@@ -38,25 +38,25 @@
     },
 
     {
-      "name": "Server IP Bind",
-      "description": "IP address to bind. Use 0.0.0.0 to listen on all interfaces.",
-      "env_variable": "SERVER_IP",
-      "default_value": "0.0.0.0",
-      "user_viewable": true,
-      "user_editable": true,
-      "rules": "required|string",
-      "field_type": "text"
-    },
-    {
-      "name": "SRS Voice/Data Port",
-      "description": "Primary SRS port (TCP+UDP). Make sure this matches the server's primary allocation.",
-      "env_variable": "SERVER_PORT",
-      "default_value": "{{server.build.default.port}}",
-      "user_viewable": true,
-      "user_editable": true,
-      "rules": "required|integer|between:1,65535",
-      "field_type": "text"
-    },
+  "name": "Server IP Bind",
+  "description": "IP address to bind. Use 0.0.0.0 to listen on all interfaces.",
+  "env_variable": "SRS_BIND_IP",
+  "default_value": "0.0.0.0",
+  "user_viewable": true,
+  "user_editable": true,
+  "rules": "required|string",
+  "field_type": "text"
+},
+{
+  "name": "SRS Voice/Data Port",
+  "description": "Primary SRS port (TCP+UDP). Make sure this matches the server's primary allocation.",
+  "env_variable": "SRS_PORT",
+  "default_value": "{{server.build.default.port}}",
+  "user_viewable": true,
+  "user_editable": true,
+  "rules": "required|integer|between:1,65535",
+  "field_type": "text"
+},
     {
       "name": "Enable UPnP",
       "description": "Let SRS attempt to open port forwarding automatically if the router supports UPnP.",
