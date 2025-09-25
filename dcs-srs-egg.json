@@ -64,8 +64,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
 
     {
@@ -75,8 +75,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "HTTP REST API Port",
@@ -96,8 +96,8 @@
       "default_value": "true",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Transmission Log Retention (days)",
@@ -116,8 +116,8 @@
       "default_value": "true",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Client Export File Path",
@@ -127,7 +127,7 @@
       "user_viewable": true,
       "user_editable": true,
       "rules": "required|string",
-      "field_type": "text"
+      "field_type": "boolean"
     },
 
     {
@@ -137,8 +137,8 @@
       "default_value": "true",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "LOS (Line-of-Sight) Enabled",
@@ -147,8 +147,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Distance-Based Range Enabled",
@@ -157,8 +157,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|string",
+      "field_type": "boolean"
     },
     {
       "name": "IRL TX Effects",
@@ -167,8 +167,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|string",
+      "field_type": "boolean"
     },
     {
       "name": "IRL RX Interference",
@@ -177,8 +177,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Radio Expansion",
@@ -187,8 +187,8 @@
       "default_value": "true",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Allow Radio Encryption",
@@ -197,8 +197,8 @@
       "default_value": "true",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Force Encryption",
@@ -207,8 +207,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Show Tuned Count",
@@ -217,8 +217,8 @@
       "default_value": "true",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Show Transmitter Name",
@@ -227,8 +227,8 @@
       "default_value": "true",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
 
     {
@@ -238,8 +238,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "Disable Spectator Audio",
@@ -248,8 +248,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
 
     {
@@ -259,8 +259,8 @@
       "default_value": "true",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     },
     {
       "name": "External AWACS Password (BLUE)",
@@ -320,8 +320,8 @@
       "default_value": "false",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
-      "field_type": "text"
+      "rules": "required|in:true,false",
+      "field_type": "boolean"
     }
   ]
 }
