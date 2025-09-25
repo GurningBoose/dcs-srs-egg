@@ -1,0 +1,327 @@
+{
+  "_comment": "DO NOT EDIT: FILE GENERATED FOR JAYCADI/DCS-SRS-SERVER — DCS SimpleRadio Standalone",
+  "meta": { "version": "PTDL_v1", "update_url": null },
+  "exported_at": "2025-09-25T00:00:00Z",
+  "name": "DCS SimpleRadio Standalone (SRS)",
+  "author": "gurningboose@gmail.com",
+  "description": "Runs a DCS SimpleRadio Standalone server using the jaycadi/dcs-srs-server image. Optional REST API on a separate TCP port.",
+  "features": null,
+  "docker_images": {
+    "jaycadi/dcs-srs-server:latest": "jaycadi/dcs-srs-server:latest",
+    "jaycadi/dcs-srs-server:2.2.0.5": "jaycadi/dcs-srs-server:2.3.0.3"
+  },
+  "file_denylist": [],
+  "startup": "/bin/sh -lc \"/opt/srs/entrypoint.sh\"",
+  "config": {
+    "files": "{}",
+    "startup": "{}",
+    "logs": "{}",
+    "stop": "stop"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/sh\r\n# SRS has everything in the Docker image; we just prepare a writable home.\r\n# Server Files: /mnt/server\r\nset -eu\r\nmkdir -p /mnt/server/logs /mnt/server/cfg\r\n# Create a readme so the directory isn't empty\r\necho \"This server runs SRS via the jaycadi/dcs-srs-server image.\\nMost settings are controlled by environment variables in the Startup tab.\" > /mnt/server/README-SRS.txt\r\necho \"Done.\"\r\n",
+      "container": "alpine:3.19",
+      "entrypoint": "sh"
+    }
+  },
+  "variables": [
+    {
+      "name": "Time Zone",
+      "description": "TZ for the container (e.g., Etc/UTC, America/Los_Angeles).",
+      "env_variable": "TZ",
+      "default_value": "Etc/UTC",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:64",
+      "field_type": "text"
+    },
+
+    {
+      "name": "Server IP Bind",
+      "description": "IP address to bind. Use 0.0.0.0 to listen on all interfaces.",
+      "env_variable": "SERVER_IP",
+      "default_value": "0.0.0.0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string",
+      "field_type": "text"
+    },
+    {
+      "name": "SRS Voice/Data Port",
+      "description": "Primary SRS port (TCP+UDP). Make sure this matches the server's primary allocation.",
+      "env_variable": "SERVER_PORT",
+      "default_value": "{{server.build.default.port}}",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|integer|between:1,65535",
+      "field_type": "text"
+    },
+    {
+      "name": "Enable UPnP",
+      "description": "Let SRS attempt to open port forwarding automatically if the router supports UPnP.",
+      "env_variable": "UPNP_ENABLED",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+
+    {
+      "name": "Enable HTTP REST API",
+      "description": "If true, start the HTTP management server (use an additional TCP port allocation).",
+      "env_variable": "HTTP_SERVER_ENABLED",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "HTTP REST API Port",
+      "description": "TCP port for the HTTP management server (only used if enabled). Also assign this as an additional port in Allocations.",
+      "env_variable": "HTTP_SERVER_PORT",
+      "default_value": "8080",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|integer|between:1,65535",
+      "field_type": "text"
+    },
+
+    {
+      "name": "Transmission Log Enabled",
+      "description": "Record all radio transmissions to log files.",
+      "env_variable": "TRANSMISSION_LOG_ENABLED",
+      "default_value": "true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Transmission Log Retention (days)",
+      "description": "How many days to keep transmission logs before auto-cleanup.",
+      "env_variable": "TRANSMISSION_LOG_RETENTION",
+      "default_value": "2",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|integer|min:0",
+      "field_type": "text"
+    },
+    {
+      "name": "Export Client List",
+      "description": "Write a JSON file with connected clients (useful for overlays/automation).",
+      "env_variable": "CLIENT_EXPORT_ENABLED",
+      "default_value": "true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Client Export File Path",
+      "description": "Where to write the clients list JSON file.",
+      "env_variable": "CLIENT_EXPORT_FILE_PATH",
+      "default_value": "/opt/srs/logs/clients-list.json",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string",
+      "field_type": "text"
+    },
+
+    {
+      "name": "Server Presets Enabled",
+      "description": "Push server-side channel presets to clients (requires presets files alongside server.cfg).",
+      "env_variable": "SERVER_PRESETS_ENABLED",
+      "default_value": "true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "LOS (Line-of-Sight) Enabled",
+      "description": "Limit radio range by terrain line-of-sight.",
+      "env_variable": "LOS_ENABLED",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Distance-Based Range Enabled",
+      "description": "Limit radio range by distance only.",
+      "env_variable": "DISTANCE_ENABLED",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "IRL TX Effects",
+      "description": "Apply realistic transmission effects to outgoing audio.",
+      "env_variable": "IRL_RADIO_TX",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "IRL RX Interference",
+      "description": "Apply realistic interference to received audio.",
+      "env_variable": "IRL_RADIO_RX_INTERFERENCE",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Radio Expansion",
+      "description": "Allow >10 presets per aircraft.",
+      "env_variable": "RADIO_EXPANSION",
+      "default_value": "true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Allow Radio Encryption",
+      "description": "Permit encrypted comms; does not force them.",
+      "env_variable": "ALLOW_RADIO_ENCRYPTION",
+      "default_value": "true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Force Encryption",
+      "description": "Require encryption for all radios.",
+      "env_variable": "STRICT_RADIO_ENCRYPTION",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Show Tuned Count",
+      "description": "Display number of users tuned to each frequency.",
+      "env_variable": "SHOW_TUNED_COUNT",
+      "default_value": "true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Show Transmitter Name",
+      "description": "Display the name of the transmitting user.",
+      "env_variable": "SHOW_TRANSMITTER_NAME",
+      "default_value": "true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+
+    {
+      "name": "Coalition Audio Security",
+      "description": "Prevent opposing coalitions from hearing each other.",
+      "env_variable": "COALITION_AUDIO_SECURITY",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Disable Spectator Audio",
+      "description": "Stop spectators from hearing radio comms.",
+      "env_variable": "SPECTATORS_AUDIO_DISABLED",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+
+    {
+      "name": "External AWACS Mode",
+      "description": "Enable server-side radio management (External AWACS).",
+      "env_variable": "EXTERNAL_AWACS_MODE",
+      "default_value": "true",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "External AWACS Password (BLUE)",
+      "description": "Password for BLUE team control.",
+      "env_variable": "EXTERNAL_AWACS_MODE_BLUE_PASSWORD",
+      "default_value": "blue",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:64",
+      "field_type": "text"
+    },
+    {
+      "name": "External AWACS Password (RED)",
+      "description": "Password for RED team control.",
+      "env_variable": "EXTERNAL_AWACS_MODE_RED_PASSWORD",
+      "default_value": "red",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:64",
+      "field_type": "text"
+    },
+
+    {
+      "name": "Test Frequencies (MHz)",
+      "description": "Comma-separated list (e.g., 247.2,120.3).",
+      "env_variable": "TEST_FREQUENCIES",
+      "default_value": "247.2,120.3",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Lobby Frequencies (MHz)",
+      "description": "Comma-separated list for lobby (pre-mission).",
+      "env_variable": "GLOBAL_LOBBY_FREQUENCIES",
+      "default_value": "248.22",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Retransmission Node Limit",
+      "description": "0 = unlimited.",
+      "env_variable": "RETRANSMISSION_NODE_LIMIT",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|integer|min:0",
+      "field_type": "text"
+    },
+    {
+      "name": "Check for Beta Updates",
+      "description": "Enable beta update checks.",
+      "env_variable": "CHECK_FOR_BETA_UPDATES",
+      "default_value": "false",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    }
+  ]
+}
