@@ -7,11 +7,10 @@
   "description": "Runs a DCS SimpleRadio Standalone server using the jaycadi/dcs-srs-server image. Optional REST API on a separate TCP port.",
   "features": null,
   "docker_images": {
-    "jaycadi/dcs-srs-server:latest": "jaycadi/dcs-srs-server:latest",
-    "jaycadi/dcs-srs-server:2.2.0.5": "jaycadi/dcs-srs-server:2.3.0.3"
+    "jaycadi/dcs-srs-server:2.3.03": "jaycadi/dcs-srs-server:2.3.0.3"
   },
   "file_denylist": [],
-  "startup": "/bin/sh -lc \"/opt/srs/entrypoint.sh\"",
+  "startup": "/bin/sh -lc 'set -eu; for d in cfg logs; do mkdir -p \"/home/container/$d\"; if [ -e \"/opt/srs/$d\" ] && [ ! -L \"/opt/srs/$d\" ]; then if [ \"$(ls -A \"/opt/srs/$d\" 2>/dev/null || true)\" ]; then cp -a \"/opt/srs/$d/.\" \"/home/container/$d/\"; fi; rm -rf \"/opt/srs/$d\"; fi; ln -sfn \"/home/container/$d\" \"/opt/srs/$d\"; done; exec /opt/srs/entrypoint.sh'",
   "config": {
     "files": "{}",
     "startup": "{}",
@@ -20,7 +19,7 @@
   },
   "scripts": {
     "installation": {
-      "script": "#!/bin/sh\r\n# SRS has everything in the Docker image; we just prepare a writable home.\r\n# Server Files: /mnt/server\r\nset -eu\r\nmkdir -p /mnt/server/logs /mnt/server/cfg\r\n# Create a readme so the directory isn't empty\r\necho \"This server runs SRS via the jaycadi/dcs-srs-server image.\\nMost settings are controlled by environment variables in the Startup tab.\" > /mnt/server/README-SRS.txt\r\necho \"Done.\"\r\n",
+      "script": "#!/bin/sh\r\n# Prepare panel-visible dirs so the server folder isn't empty.\r\nset -eu\r\nmkdir -p /mnt/server/logs /mnt/server/cfg\r\necho \"This server runs SRS via jaycadi/dcs-srs-server.\\nConfigs/logs are in /home/container/{cfg,logs}.\" > /mnt/server/README-SRS.txt\r\necho \"Done.\"\r\n",
       "container": "alpine:3.19",
       "entrypoint": "sh"
     }
