@@ -10,7 +10,7 @@
     "jaycadi/dcs-srs-server:2.3.03": "jaycadi/dcs-srs-server:2.3.0.3"
   },
   "file_denylist": [],
-  "startup": "/bin/sh -lc 'set -eu; for d in cfg logs; do mkdir -p \"/home/container/$d\"; if [ -e \"/opt/srs/$d\" ] && [ ! -L \"/opt/srs/$d\" ]; then if [ \"$(ls -A \"/opt/srs/$d\" 2>/dev/null || true)\" ]; then cp -a \"/opt/srs/$d/.\" \"/home/container/$d/\"; fi; rm -rf \"/opt/srs/$d\"; fi; ln -sfn \"/home/container/$d\" \"/opt/srs/$d\"; done; exec /opt/srs/entrypoint.sh'",
+  "startup": "/bin/sh -lc \"exec /opt/srs/entrypoint.sh\"",
   "config": {
     "files": "{}",
     "startup": "{}",
